@@ -1700,7 +1700,7 @@ yyreduce:
 
   case 40:
 #line 173 "parser.y"
-    {(yyval.while_ptr) = new WhileNode((yyvsp[(1) - (5)]),(yyvsp[(2) - (5)].expression_ptr)); ;}
+    {(yyval.while_ptr) = new WhileNode((yyvsp[(2) - (5)].expression_ptr),(yyvsp[(4) - (5)].statement_list_ptr)); ;}
     break;
 
   case 41:
@@ -1790,17 +1790,17 @@ yyreduce:
 
   case 59:
 #line 198 "parser.y"
-    { (yyval.expression_ptr) = new IntegerLiteralNode((yyvsp[(1) - (1)].base_int)); ;}
+    { (yyval.expression_ptr) = new IntegerLiteralNode(new IntegerNode((yyvsp[(1) - (1)].base_int))); ;}
     break;
 
   case 60:
 #line 199 "parser.y"
-    { (yyval.expression_ptr) = new BooleanLiteralNode((yyvsp[(1) - (1)].base_int)); ;}
+    { (yyval.expression_ptr) = new BooleanLiteralNode(new IntegerNode((yyvsp[(1) - (1)].base_int))); ;}
     break;
 
   case 61:
 #line 200 "parser.y"
-    { (yyval.expression_ptr) = new BooleanLiteralNode((yyvsp[(1) - (1)].base_int)); ;}
+    { (yyval.expression_ptr) = new BooleanLiteralNode(new IntegerNode((yyvsp[(1) - (1)].base_int))); ;}
     break;
 
   case 62:

@@ -195,9 +195,9 @@ Expressions : Expressions T_PLUS Expressions { $$ = new PlusNode($1, $3); }
       | T_ID T_DOT T_ID { $$ = new MemberAccessNode(new IdentifierNode($1), new IdentifierNode($3)); }
       | MethodCall { $$ = new CallNode($1); }
       | T_OPENPAREN Expressions T_CLOSEPAREN  
-      | T_NUM { $$ = new IntegerLiteralNode($1); }
-      | T_TRUE { $$ = new BooleanLiteralNode($1); }
-      | T_FALSE { $$ = new BooleanLiteralNode($1); }
+      | T_NUM { $$ = new IntegerLiteralNode(new IntegerNode($1)); }
+      | T_TRUE { $$ = new BooleanLiteralNode(new IntegerNode($1)); }
+      | T_FALSE { $$ = new BooleanLiteralNode(new IntegerNode($1)); }
       | T_NEW T_ID { $$ = new NewNode(new IdentifierNode($2), NULL); }
       | T_NEW T_ID T_OPENPAREN Arguments T_CLOSEPAREN { $$ = new NewNode(new IdentifierNode($2), $4); }
       ;
