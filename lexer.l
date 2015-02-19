@@ -11,10 +11,22 @@
     
 	void yyerror(const char *);
 %}
-
 /* WRITEME: Copy any definitions and start conditions from Project 3 here */
 
+
+%x comment
+
+
 %%
+<INITIAL>{
+ "--!"              BEGIN(comment);
+}
+<comment>{
+ "!--"      BEGIN(INITIAL);
+ "!"        
+ [^!]+      // eat comment in chunks
+ <<EOF>>  { yyerror("dangling comment"); }
+}
 
   /* WRITEME: Copy your Flex rules from Project 3 here */
 [ \t\n]
@@ -54,11 +66,6 @@
 [0-9][0-9]*             { yylval.base_int = atoi(yytext); return T_NUM; }
 [a-zA-Z][a-zA-Z0-9]*    { yylval.base_char_ptr = strdup(yytext); return T_ID; }
 
-<comment>.
-<comment>[ \t\n]
-"--!"                   { BEGIN(comment); }
-<comment><<EOF>>        { yyerror("dangling comment"); }
-<comment>"!--"          { BEGIN(INITIAL); }
 
 .                 { yyerror("invalid character"); }
 

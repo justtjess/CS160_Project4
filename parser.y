@@ -68,12 +68,12 @@
 %type <method_list_ptr> Methods
 %type <method_ptr> Method
 %type <expression_ptr> Expressions
-%type <parameter_list_ptr> Parameters
+%type <parameter_list_ptr> Parameters Parameter
 %type <returnstatement_ptr> Return
 %type <type_ptr> Type ReturnType
 %type <methodbody_ptr> Body
 %type <statement_list_ptr> Statements Block
-%type <parameter_ptr> Parameter
+%type <parameter_ptr> Parameter_p
 %type <assignment_ptr> Assignment
 %type <methodcall_ptr> Method_Call MethodCall
 %type <ifelse_ptr> ifelse
@@ -127,13 +127,15 @@ Method : T_ID T_OPENPAREN Parameters T_CLOSEPAREN T_ARROW ReturnType T_OPENCURLY
 Body :  Declarations Statements Return { $$ = new MethodBodyNode( $1, $2, $3); }
       ;
 
-Parameters : Parameter Parameters  { $$ = $2; $$->push_front($1); }
+Parameters : Parameter  { $$ = $1; }
       | { $$ = NULL; }
       ;
 
-Parameter : T_ID T_COLON Type {$$ = new ParameterNode($3,new IdentifierNode($1)); }
-      | Parameter T_COMMA { $$ = new std::list<ParameterNode*>(); $$->push_back($1); }
+Parameter : Parameter_p {$$ = new std::list<ParameterNode*>(); $$->push_back($1); }
+      | Parameter_p T_COMMA Parameter { $$ = $3; $$->push_front($1); }
       ;
+
+Parameter_p : T_ID T_COLON Type {$$ = new ParameterNode($3,new IdentifierNode($1)); }
 
 Declarations : Declarations Type Declaration { $$ = $1; $$->push_back(new DeclarationNode($2,$3)); }
       | { $$ = new std::list<DeclarationNode*>(); }
@@ -193,8 +195,8 @@ Expressions : Expressions T_PLUS Expressions { $$ = new PlusNode($1, $3); }
       | T_MINUS Expressions %prec T_NOT { $$ = new NegationNode($2); } 
       | T_ID  { $$ = new VariableNode(new IdentifierNode($1)); }
       | T_ID T_DOT T_ID { $$ = new MemberAccessNode(new IdentifierNode($1), new IdentifierNode($3)); }
-      | MethodCall { $$ = new CallNode($1); }
-      | T_OPENPAREN Expressions T_CLOSEPAREN  
+      | MethodCall { $$ = $1; }
+      | T_OPENPAREN Expressions T_CLOSEPAREN  { $$ = $2; }
       | T_NUM { $$ = new IntegerLiteralNode(new IntegerNode($1)); }
       | T_TRUE { $$ = new BooleanLiteralNode(new IntegerNode($1)); }
       | T_FALSE { $$ = new BooleanLiteralNode(new IntegerNode($1)); }
