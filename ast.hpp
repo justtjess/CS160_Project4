@@ -65,7 +65,7 @@ class IntegerNode;
 //   of all necessary pointers (including lists). This will
 //   be used in %type specifiers and in lexer.
 typedef union {
-  ProgramNode* program_ptr;
+  ProgramNode* program_ptr; //
   std::list<ClassNode*>* class_list_ptr;
   ClassNode* class_ptr;
   IdentifierNode* identifier_ptr;
@@ -99,15 +99,15 @@ typedef union {
   NotNode* not_ptr;
   NegationNode* negation_ptr;
   std::list<ExpressionNode*>* expression_list_ptr;
-  MemberAccessNode* memberaccess_ptr;
-  VariableNode* variable_ptr;
+  MemberAccessNode* memberaccess_ptr; //
+  VariableNode* variable_ptr; //
   IntegerLiteralNode* integerliteral_ptr;
-  IntegerNode* integer_ptr;
-  BooleanLiteralNode* booleanliteral_ptr;
-  NewNode* new_ptr;
+  IntegerNode* integer_ptr; 
+  BooleanLiteralNode* booleanliteral_ptr;  
+  NewNode* new_ptr; //
   IntegerTypeNode* integertype_ptr;
   BooleanTypeNode* booleantype_ptr;
-  ObjectTypeNode* objecttype_ptr;
+  ObjectTypeNode* objecttype_ptr; //
   NoneNode* none_ptr;
   StatementNode* statement_ptr;
   char* base_char_ptr;
